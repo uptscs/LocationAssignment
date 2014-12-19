@@ -13,11 +13,17 @@
 #define kPreviousSubmitTimeKey      @"PreviousSubmitTime"
 #define kDefaultCustomerName        @"John Doe"
 
+
 @interface ViewController ()<UITextFieldDelegate, CLLocationManagerDelegate>{
     IBOutlet UITextField    *_textfieldCustomerName;
     IBOutlet UILabel        *_labelPreviousSubmitMessage;
     IBOutlet UILabel        *_labelCurrentLocation;
+    
     CLLocationManager       *_locationManager;
+
+    NSDate *_previousSubmitDate;
+    NSTimer *_timer;
+    BOOL _isTimersetforMinutes;
 }
 
 @end
@@ -38,14 +44,18 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+
     NSString *customerName = [[NSUserDefaults standardUserDefaults] stringForKey:kCustomerNameKey];
     if (nil != customerName && customerName.length) {
         _textfieldCustomerName.text = customerName;
     }else{
         _textfieldCustomerName.text = kDefaultCustomerName;
     }
-    NSString *previousSubmitTime = [self getPreviousSubmitTime];
-    _labelPreviousSubmitMessage.text = [NSString stringWithFormat:@"Last submitted %@ ago", previousSubmitTime];
+    
+    _previousSubmitDate = [self getLastSubmitDate];
+    if (_previousSubmitDate) {
+        [self startTimer:1.0];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,10 +82,11 @@
 
 -(IBAction)submit:(id)sender{
     [_textfieldCustomerName resignFirstResponder];
-    //    NSString *customerName = _textfieldCustomerName.text;
-    //    double latitude = 1201212.1;
-    //    double longitude = 1201212.1;
-    //    NSString *postString = [NSString stringWithFormat:@"data = %@ is now at %f/%f", customerName, latitude, longitude];
+    _previousSubmitDate = [NSDate date];
+    [self saveSubmitDate:_previousSubmitDate];
+    //TODO: If timer value is more than 60 then schedule it for every 60 second update
+    [self startTimer:1.0];
+    _labelPreviousSubmitMessage.text = [self getDateMessage:0];
 }
 
 #pragma mark -
@@ -111,6 +122,80 @@
     [_locationManager stopUpdatingLocation];
     _locationManager.delegate = nil;
     NSLog(@"Location update stopped, reason: %@", state);
+}
+
+-(void)startTimer : (NSTimeInterval)timeInterval{
+    if (timeInterval <= 1.0) {
+        _isTimersetforMinutes = NO;
+    }
+    if (_timer) {
+        [_timer invalidate];
+    }
+    _timer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
+                                              target:self
+                                            selector:@selector(updateResetTimeMessage:)
+                                            userInfo:nil
+                                             repeats:YES];
+}
+
+
+-(void)updateResetTimeMessage : (NSTimer *)timer{
+    NSTimeInterval timeDifference = [_previousSubmitDate timeIntervalSinceNow];
+    _labelPreviousSubmitMessage.text = [self getDateMessage:-timeDifference];
+}
+
+-(NSString *)getDateMessage : (NSTimeInterval)interval{
+    if(!interval){
+        return @"Just submitted";
+    }else if(interval < 60.0){
+        NSInteger seconds = interval;
+        NSString *secondString = (seconds <= 1 ? @"second": @"seconds");
+        return [NSString stringWithFormat:@"Last submitted %li %@ before", seconds, secondString];
+    }else if(interval < 3600.0){
+        //Minutes
+        if(!_isTimersetforMinutes){
+            [self startTimer:60.0];
+            _isTimersetforMinutes = YES;
+        }
+        int minutes = interval / 60;
+        NSString *minuteString = (minutes == 1 ? @"minute": @"minutes");
+        return [NSString stringWithFormat:@"Last submitted %i %@ before", minutes, minuteString];
+    }else if(interval >= 3600.0){
+        //Hours
+        int hour = interval / 3600;
+        NSString *hourString = (hour == 1 ? @"hour": @"hours");
+        return [NSString stringWithFormat:@"Last submitted %i %@ before", hour, hourString];
+    }else{
+        //Days
+        int day = interval / (3600 * 60);
+        NSString *dayString = (day == 1 ? @"day": @"days");
+        return [NSString stringWithFormat:@"Last submitted %i %@ before", day, dayString];
+    }
+    return @"No submission done";
+}
+
+
+-(void)saveSubmitDate : (NSDate *)localTimezoneDate
+{
+    //Convert to GMT time zone and then save
+    NSTimeZone *tz = [NSTimeZone defaultTimeZone];
+    NSInteger seconds = -[tz secondsFromGMTForDate: localTimezoneDate];
+    NSDate *dateGMT = [NSDate dateWithTimeInterval: seconds sinceDate: localTimezoneDate];
+    [[NSUserDefaults standardUserDefaults] setObject:dateGMT forKey:kPreviousSubmitTimeKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+}
+
+-(NSDate *)getLastSubmitDate
+{
+    //Get the last saved date in GMT convert it to local timezone and return
+    NSDate *previousSubmitDate = [[NSUserDefaults standardUserDefaults] objectForKey:kPreviousSubmitTimeKey];
+    if (previousSubmitDate) {
+        NSTimeZone *tz = [NSTimeZone defaultTimeZone];
+        NSInteger seconds = [tz secondsFromGMTForDate: previousSubmitDate];
+        return [NSDate dateWithTimeInterval: seconds sinceDate: previousSubmitDate];
+    }
+    return nil;
 }
 
 @end

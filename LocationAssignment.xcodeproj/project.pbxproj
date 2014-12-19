@@ -30,7 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		84C22C1D1A413E79007073E8 /* Location Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Location Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		84C22C1D1A413E79007073E8 /* LocationAssignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocationAssignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C22C211A413E79007073E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84C22C221A413E79007073E8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		84C22C241A413E79007073E8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 		84C22C1E1A413E79007073E8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				84C22C1D1A413E79007073E8 /* Location Tracker.app */,
+				84C22C1D1A413E79007073E8 /* LocationAssignment.app */,
 				84C22C361A413E79007073E8 /* LocationAssignmentTests.xctest */,
 			);
 			name = Products;
@@ -147,7 +147,7 @@
 			);
 			name = LocationAssignment;
 			productName = LocationAssignment;
-			productReference = 84C22C1D1A413E79007073E8 /* Location Tracker.app */;
+			productReference = 84C22C1D1A413E79007073E8 /* LocationAssignment.app */;
 			productType = "com.apple.product-type.application";
 		};
 		84C22C351A413E79007073E8 /* LocationAssignmentTests */ = {
@@ -359,7 +359,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LocationAssignment/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "Location Tracker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
@@ -369,7 +369,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LocationAssignment/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "Location Tracker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -426,6 +426,7 @@
 				84C22C421A413E79007073E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84C22C431A413E79007073E8 /* Build configuration list for PBXNativeTarget "LocationAssignmentTests" */ = {
 			isa = XCConfigurationList;
@@ -434,6 +435,7 @@
 				84C22C451A413E79007073E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
