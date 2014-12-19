@@ -8,11 +8,13 @@
 
 #import "ViewController.h"
 #import "CLLocation+Strings.h"
+#import <Security/Security.h>
 
 #define kCustomerNameKey            @"StoredCustomerName"
 #define kPreviousSubmitTimeKey      @"PreviousSubmitTime"
 #define kDefaultCustomerName        @"John Doe"
-
+#define kUsername                   @"upendra"
+#define kPassword                   @"lumbergh21"
 
 @interface ViewController ()<UITextFieldDelegate, CLLocationManagerDelegate>{
     IBOutlet UITextField    *_textfieldCustomerName;
@@ -21,9 +23,10 @@
     
     CLLocationManager       *_locationManager;
 
-    NSDate *_previousSubmitDate;
-    NSTimer *_timer;
-    BOOL _isTimersetforMinutes;
+    NSDate      *_previousSubmitDate;
+    NSTimer     *_timer;
+
+    BOOL        _isTimersetforMinutes;
 }
 
 @end
@@ -32,7 +35,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = self;
     if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
@@ -70,12 +72,10 @@
     [self storeTextfieldValue:textField];
 }
 
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;
 }
-
 
 #pragma mark -
 #pragma mark User interaction methods
@@ -84,45 +84,12 @@
     [_textfieldCustomerName resignFirstResponder];
     _previousSubmitDate = [NSDate date];
     [self saveSubmitDate:_previousSubmitDate];
-    //TODO: If timer value is more than 60 then schedule it for every 60 second update
     [self startTimer:1.0];
     _labelPreviousSubmitMessage.text = [self getDateMessage:0];
 }
 
 #pragma mark -
 #pragma mark Custom methods
-
--(void)storeTextfieldValue:(UITextField *)textField{
-    NSString *customerName = textField.text;
-    [[NSUserDefaults standardUserDefaults] setObject:customerName forKey:kCustomerNameKey];
-}
-
--(NSString *)getPreviousSubmitTime{
-    return @"9 Minutes";
-}
-
-
-#pragma mark -
-#pragma mark CLLocation manager delegate methods
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    NSString *locationDescription = newLocation.localizedCoordinateString;
-    _labelCurrentLocation.text = locationDescription;
-}
-
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    if ([error code] != kCLErrorLocationUnknown) {
-        [self stopUpdatingLocationWithMessage:NSLocalizedString(@"Error", @"Error")];
-    }
-}
-
-
-- (void)stopUpdatingLocationWithMessage:(NSString *)state {
-    [_locationManager stopUpdatingLocation];
-    _locationManager.delegate = nil;
-    NSLog(@"Location update stopped, reason: %@", state);
-}
 
 -(void)startTimer : (NSTimeInterval)timeInterval{
     if (timeInterval <= 1.0) {
@@ -133,13 +100,43 @@
     }
     _timer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
                                               target:self
-                                            selector:@selector(updateResetTimeMessage:)
+                                            selector:@selector(updateSubmitTimeMessage:)
                                             userInfo:nil
                                              repeats:YES];
 }
 
+-(void)storeTextfieldValue:(UITextField *)textField{
+    NSString *customerName = textField.text;
+    [[NSUserDefaults standardUserDefaults] setObject:customerName forKey:kCustomerNameKey];
+}
 
--(void)updateResetTimeMessage : (NSTimer *)timer{
+-(void)saveSubmitDate : (NSDate *)localTimezoneDate
+{
+    //Convert to GMT time zone and then save
+    NSTimeZone *tz = [NSTimeZone defaultTimeZone];
+    NSInteger seconds = -[tz secondsFromGMTForDate: localTimezoneDate];
+    NSDate *dateGMT = [NSDate dateWithTimeInterval: seconds sinceDate: localTimezoneDate];
+    [[NSUserDefaults standardUserDefaults] setObject:dateGMT forKey:kPreviousSubmitTimeKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+}
+
+-(NSDate *)getLastSubmitDate
+{
+    //Get the last saved date in GMT convert it to local timezone and return
+    NSDate *previousSubmitDate = [[NSUserDefaults standardUserDefaults] objectForKey:kPreviousSubmitTimeKey];
+    if (previousSubmitDate) {
+        NSTimeZone *tz = [NSTimeZone defaultTimeZone];
+        NSInteger seconds = [tz secondsFromGMTForDate: previousSubmitDate];
+        return [NSDate dateWithTimeInterval: seconds sinceDate: previousSubmitDate];
+    }
+    return nil;
+}
+
+#pragma mark -
+#pragma mark Helper methods
+
+-(void)updateSubmitTimeMessage : (NSTimer *)timer{
     NSTimeInterval timeDifference = [_previousSubmitDate timeIntervalSinceNow];
     _labelPreviousSubmitMessage.text = [self getDateMessage:-timeDifference];
 }
@@ -174,28 +171,24 @@
     return @"No submission done";
 }
 
+#pragma mark -
+#pragma mark CLLocation manager delegate methods
 
--(void)saveSubmitDate : (NSDate *)localTimezoneDate
-{
-    //Convert to GMT time zone and then save
-    NSTimeZone *tz = [NSTimeZone defaultTimeZone];
-    NSInteger seconds = -[tz secondsFromGMTForDate: localTimezoneDate];
-    NSDate *dateGMT = [NSDate dateWithTimeInterval: seconds sinceDate: localTimezoneDate];
-    [[NSUserDefaults standardUserDefaults] setObject:dateGMT forKey:kPreviousSubmitTimeKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    NSString *locationDescription = newLocation.localizedCoordinateString;
+    _labelCurrentLocation.text = locationDescription;
 }
 
--(NSDate *)getLastSubmitDate
-{
-    //Get the last saved date in GMT convert it to local timezone and return
-    NSDate *previousSubmitDate = [[NSUserDefaults standardUserDefaults] objectForKey:kPreviousSubmitTimeKey];
-    if (previousSubmitDate) {
-        NSTimeZone *tz = [NSTimeZone defaultTimeZone];
-        NSInteger seconds = [tz secondsFromGMTForDate: previousSubmitDate];
-        return [NSDate dateWithTimeInterval: seconds sinceDate: previousSubmitDate];
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    if ([error code] != kCLErrorLocationUnknown) {
+        [self stopUpdatingLocationWithMessage:NSLocalizedString(@"Error", @"Error")];
     }
-    return nil;
+}
+
+- (void)stopUpdatingLocationWithMessage:(NSString *)state {
+    [_locationManager stopUpdatingLocation];
+    _locationManager.delegate = nil;
+    NSLog(@"Location update stopped, reason: %@", state);
 }
 
 @end
