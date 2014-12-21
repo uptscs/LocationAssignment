@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "WebserviceManager.h"
 
 @interface AppDelegate ()
 
@@ -14,9 +15,9 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [[WebserviceManager getInstance] run];
     return YES;
 }
 
@@ -26,8 +27,29 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    NSLog(@"Application entered background state.");
+    
+    // bgTask is instance variable
+    NSAssert(self->bgTask == UIBackgroundTaskInvalid, nil);
+    
+    bgTask = [application beginBackgroundTaskWithExpirationHandler: ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [application endBackgroundTask:self->bgTask];
+            self->bgTask = UIBackgroundTaskInvalid;
+        });
+    }];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if ([application backgroundTimeRemaining] > 1.0) {
+            // Start background service synchronously
+            [[WebserviceManager getInstance] run];
+        }
+        
+        [application endBackgroundTask:self->bgTask];
+        self->bgTask = UIBackgroundTaskInvalid;
+        
+    });
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

@@ -9,12 +9,8 @@
 #import "ViewController.h"
 #import "CLLocation+Strings.h"
 #import <Security/Security.h>
-
-#define kCustomerNameKey            @"StoredCustomerName"
-#define kPreviousSubmitTimeKey      @"PreviousSubmitTime"
-#define kDefaultCustomerName        @"John Doe"
-#define kUsername                   @"upendra"
-#define kPassword                   @"lumbergh21"
+#import "AFHTTPRequestOperationManager.h"
+#import "WebserviceManager.h"
 
 @interface ViewController ()<UITextFieldDelegate, CLLocationManagerDelegate>{
     IBOutlet UITextField    *_textfieldCustomerName;
@@ -27,6 +23,8 @@
     NSTimer     *_timer;
 
     BOOL        _isTimersetforMinutes;
+    double      latitude;
+    double      longitude;
 }
 
 @end
@@ -86,6 +84,7 @@
     [self saveSubmitDate:_previousSubmitDate];
     [self startTimer:1.0];
     _labelPreviousSubmitMessage.text = [self getDateMessage:0];
+    [[WebserviceManager getInstance] run];
 }
 
 #pragma mark -
@@ -175,6 +174,10 @@
 #pragma mark CLLocation manager delegate methods
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    latitude = newLocation.coordinate.latitude;
+    longitude = newLocation.coordinate.longitude;
+    [[NSUserDefaults standardUserDefaults] setDouble:latitude forKey:kCustomerLatitude];
+    [[NSUserDefaults standardUserDefaults] setDouble:longitude forKey:kCustomerLongitude];
     NSString *locationDescription = newLocation.localizedCoordinateString;
     _labelCurrentLocation.text = locationDescription;
 }
