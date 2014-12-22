@@ -35,7 +35,7 @@ static WebserviceManager *instance = NULL;
     return instance;
 }
 
-- (void)run {
+- (void)runWithHandler:(Handler)completionHanler{
 
     NSString *customerName = [[NSUserDefaults standardUserDefaults] objectForKey:kCustomerNameKey];
     double latitude = [[NSUserDefaults standardUserDefaults] doubleForKey:kCustomerLatitude];
@@ -48,9 +48,14 @@ static WebserviceManager *instance = NULL;
     NSDictionary *parameters = @{@"data": postData};
     
     [manager POST:kURLString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+        if (completionHanler){
+                completionHanler(responseObject);
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
+        if (completionHanler){
+                completionHanler(error);
+        }
+
     }];
 }
 

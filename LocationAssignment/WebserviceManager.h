@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^Handler)(id response);
+
 @interface WebserviceManager : NSObject
 
 + (WebserviceManager *)getInstance;
-- (void)run;
+- (void)runWithHandler:(Handler)completionHanler;
 
 @end

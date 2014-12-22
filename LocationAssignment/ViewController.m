@@ -81,10 +81,16 @@
 -(IBAction)submit:(id)sender{
     [_textfieldCustomerName resignFirstResponder];
     _previousSubmitDate = [NSDate date];
-    [self saveSubmitDate:_previousSubmitDate];
-    [self startTimer:1.0];
     _labelPreviousSubmitMessage.text = [self getDateMessage:0];
-    [[WebserviceManager getInstance] run];
+    [[WebserviceManager getInstance] runWithHandler:^(id response) {
+        if (![response isKindOfClass:[NSError class]]) {
+            _previousSubmitDate = [NSDate date];
+            [self saveSubmitDate:_previousSubmitDate];
+            [self startTimer:1.0];
+        } else {
+            // Show alert
+        }
+    }];
 }
 
 #pragma mark -

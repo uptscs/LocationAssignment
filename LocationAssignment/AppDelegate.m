@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "WebserviceManager.h"
+#import "ViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,7 +18,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [[WebserviceManager getInstance] run];
+    [[WebserviceManager getInstance] runWithHandler:^(id response) {
+        if (![response isKindOfClass:[NSError class]]) {
+            NSDate *previousSubmitDate = [NSDate date];
+            [self saveSubmitDate:previousSubmitDate];
+        } else {
+            // Show alert
+        }
+    }];
     return YES;
 }
 
@@ -43,12 +51,17 @@
         
         if ([application backgroundTimeRemaining] > 1.0) {
             // Start background service synchronously
-            [[WebserviceManager getInstance] run];
+            [[WebserviceManager getInstance] runWithHandler:^(id response) {
+                if (![response isKindOfClass:[NSError class]]) {
+                    NSDate *previousSubmitDate = [NSDate date];
+                    [self saveSubmitDate:previousSubmitDate];
+                } else {
+                    // Show alert
+                }
+            }];
         }
-        
         [application endBackgroundTask:self->bgTask];
         self->bgTask = UIBackgroundTaskInvalid;
-        
     });
 }
 
@@ -62,6 +75,18 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+-(void)saveSubmitDate : (NSDate *)localTimezoneDate
+{
+    //Convert to GMT time zone and then save
+    NSTimeZone *tz = [NSTimeZone defaultTimeZone];
+    NSInteger seconds = -[tz secondsFromGMTForDate: localTimezoneDate];
+    NSDate *dateGMT = [NSDate dateWithTimeInterval: seconds sinceDate: localTimezoneDate];
+    [[NSUserDefaults standardUserDefaults] setObject:dateGMT forKey:kPreviousSubmitTimeKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
 }
 
 @end
