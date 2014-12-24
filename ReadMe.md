@@ -1,1 +1,1 @@
-This application is used for Tracking the user application. Demonstrate the capability of CLLocation manager API.
+This application is used for Tracking the user application. Demonstrate the capability of CLLocation manager and MKNetwork framework  API.
