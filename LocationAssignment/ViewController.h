@@ -9,13 +9,10 @@
 #import <UIKit/UIKit.h>
 
 #define kCustomerNameKey            @"StoredCustomerName"
-#define kCustomerLatitude           @"StoredCustomerNameLatitude"
-#define kCustomerLongitude          @"StoredCustomerNameLongitude"
+#define kCustomerLatitude           @"StoredCustomerLatitude"
+#define kCustomerLongitude          @"StoredCustomerLongitude"
 #define kPreviousSubmitTimeKey      @"PreviousSubmitTime"
 #define kDefaultCustomerName        @"John Doe"
-#define kUsername                   @"upendra:"
-#define kPassword                   @"lumbergh21"
-#define kURLString                  @"http://gentle-tor-1851.herokuapp.com/events"
 
 @interface ViewController : UIViewController
 

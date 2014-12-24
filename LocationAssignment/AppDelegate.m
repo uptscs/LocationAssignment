@@ -7,8 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "WebserviceManager.h"
 #import "ViewController.h"
+#import "WebserviceOperation.h"
 
 @interface AppDelegate ()
 
@@ -17,15 +17,6 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    [[WebserviceManager getInstance] runWithHandler:^(id response) {
-        if (![response isKindOfClass:[NSError class]]) {
-            NSDate *previousSubmitDate = [NSDate date];
-            [self saveSubmitDate:previousSubmitDate];
-        } else {
-            // Show alert
-        }
-    }];
     return YES;
 }
 
@@ -50,15 +41,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         
         if ([application backgroundTimeRemaining] > 1.0) {
-            // Start background service synchronously
-            [[WebserviceManager getInstance] runWithHandler:^(id response) {
-                if (![response isKindOfClass:[NSError class]]) {
-                    NSDate *previousSubmitDate = [NSDate date];
-                    [self saveSubmitDate:previousSubmitDate];
-                } else {
-                    // Show alert
-                }
-            }];
+            [self submitData];
         }
         [application endBackgroundTask:self->bgTask];
         self->bgTask = UIBackgroundTaskInvalid;
@@ -71,12 +54,33 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [self submitData];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+-(void)submitData{
+    
+    NSString *userName = [[NSUserDefaults standardUserDefaults] objectForKey:kCustomerNameKey];
+    double latitude = [[NSUserDefaults standardUserDefaults] doubleForKey:kCustomerLatitude];
+    double longitude = [[NSUserDefaults standardUserDefaults] doubleForKey:kCustomerLongitude];
+    if (nil == userName || userName.length <= 0) {
+        return;
+    }
+    NSDictionary *parameters = @{@"Name":userName,
+                                 @"latitude":@(latitude),
+                                 @"longitude":@(longitude)};
+    [WebserviceOperation runWebservicewithParameters: parameters completionHander :^(WebServiceStatus status, NSString *submitDate, NSError* error){
+        if (nil == error) {
+            NSDate *date = [NSDate date];
+            [self saveSubmitDate:date];
+        }else{
+            NSLog(@"Error: %@", error.description);
+        }
+    }];
+}
 
 -(void)saveSubmitDate : (NSDate *)localTimezoneDate
 {

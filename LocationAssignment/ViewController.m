@@ -9,8 +9,7 @@
 #import "ViewController.h"
 #import "CLLocation+Strings.h"
 #import <Security/Security.h>
-#import "AFHTTPRequestOperationManager.h"
-#import "WebserviceManager.h"
+#import "WebserviceOperation.h"
 
 @interface ViewController ()<UITextFieldDelegate, CLLocationManagerDelegate>{
     IBOutlet UITextField    *_textfieldCustomerName;
@@ -80,15 +79,18 @@
 
 -(IBAction)submit:(id)sender{
     [_textfieldCustomerName resignFirstResponder];
-    _previousSubmitDate = [NSDate date];
-    _labelPreviousSubmitMessage.text = [self getDateMessage:0];
-    [[WebserviceManager getInstance] runWithHandler:^(id response) {
-        if (![response isKindOfClass:[NSError class]]) {
+    NSString *userName = _textfieldCustomerName.text;
+    NSDictionary *parameters = @{@"Name":userName,
+                                 @"latitude":@(latitude),
+                                 @"longitude":@(longitude)};
+    [WebserviceOperation runWebservicewithParameters: parameters completionHander :^(WebServiceStatus status, NSString *submitDate, NSError* error){
+        if (nil == error) {
             _previousSubmitDate = [NSDate date];
             [self saveSubmitDate:_previousSubmitDate];
+            _labelPreviousSubmitMessage.text = [self getDateMessage:0];
             [self startTimer:1.0];
-        } else {
-            // Show alert
+        }else{
+            NSLog(@"Error: %@", error.description);
         }
     }];
 }
