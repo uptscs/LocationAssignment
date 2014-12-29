@@ -8,12 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#define kCustomerNameKey            @"StoredCustomerName"
-#define kCustomerLatitude           @"StoredCustomerLatitude"
-#define kCustomerLongitude          @"StoredCustomerLongitude"
-#define kPreviousSubmitTimeKey      @"PreviousSubmitTime"
-#define kDefaultCustomerName        @"John Doe"
-
 @interface ViewController : UIViewController
 
 

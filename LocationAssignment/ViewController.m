@@ -15,7 +15,9 @@
     IBOutlet UITextField    *_textfieldCustomerName;
     IBOutlet UILabel        *_labelPreviousSubmitMessage;
     IBOutlet UILabel        *_labelCurrentLocation;
-    
+    IBOutlet UIButton        *_buttonSubmit;
+    IBOutlet UIActivityIndicatorView      *_activitySubmit;
+
     CLLocationManager       *_locationManager;
 
     NSDate      *_previousSubmitDate;
@@ -51,7 +53,7 @@
         _textfieldCustomerName.text = kDefaultCustomerName;
     }
     
-    _previousSubmitDate = [self getLastSubmitDate];
+    _previousSubmitDate = [StorageManager getLastSubmitDate];
     if (_previousSubmitDate) {
         [self startTimer:1.0];
     }
@@ -79,14 +81,19 @@
 
 -(IBAction)submit:(id)sender{
     [_textfieldCustomerName resignFirstResponder];
+//    [_buttonSubmit setUserInter]
+    [_buttonSubmit setUserInteractionEnabled:NO];
+    [_activitySubmit startAnimating];
     NSString *userName = _textfieldCustomerName.text;
     NSDictionary *parameters = @{@"Name":userName,
                                  @"latitude":@(latitude),
                                  @"longitude":@(longitude)};
     [WebserviceOperation runWebservicewithParameters: parameters completionHander :^(WebServiceStatus status, NSString *submitDate, NSError* error){
+        [_activitySubmit stopAnimating];
+        [_buttonSubmit setUserInteractionEnabled:YES];
         if (nil == error) {
             _previousSubmitDate = [NSDate date];
-            [self saveSubmitDate:_previousSubmitDate];
+            [StorageManager saveSubmitDate:_previousSubmitDate];
             _labelPreviousSubmitMessage.text = [self getDateMessage:0];
             [self startTimer:1.0];
         }else{
@@ -117,28 +124,6 @@
     [[NSUserDefaults standardUserDefaults] setObject:customerName forKey:kCustomerNameKey];
 }
 
--(void)saveSubmitDate : (NSDate *)localTimezoneDate
-{
-    //Convert to GMT time zone and then save
-    NSTimeZone *tz = [NSTimeZone defaultTimeZone];
-    NSInteger seconds = -[tz secondsFromGMTForDate: localTimezoneDate];
-    NSDate *dateGMT = [NSDate dateWithTimeInterval: seconds sinceDate: localTimezoneDate];
-    [[NSUserDefaults standardUserDefaults] setObject:dateGMT forKey:kPreviousSubmitTimeKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-}
-
--(NSDate *)getLastSubmitDate
-{
-    //Get the last saved date in GMT convert it to local timezone and return
-    NSDate *previousSubmitDate = [[NSUserDefaults standardUserDefaults] objectForKey:kPreviousSubmitTimeKey];
-    if (previousSubmitDate) {
-        NSTimeZone *tz = [NSTimeZone defaultTimeZone];
-        NSInteger seconds = [tz secondsFromGMTForDate: previousSubmitDate];
-        return [NSDate dateWithTimeInterval: seconds sinceDate: previousSubmitDate];
-    }
-    return nil;
-}
 
 #pragma mark -
 #pragma mark Helper methods

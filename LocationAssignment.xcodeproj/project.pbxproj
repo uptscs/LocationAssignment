@@ -7,12 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8458C0A01A44B0ED0067A9FA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8458C09F1A44B0ED0067A9FA /* Security.framework */; };
-		8494C2191A474C17009BE16A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8494C2181A474C17009BE16A /* SystemConfiguration.framework */; };
-		8494C21B1A474C21009BE16A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8494C21A1A474C21009BE16A /* CFNetwork.framework */; };
-		8494C21D1A474C2E009BE16A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8494C21C1A474C2E009BE16A /* Foundation.framework */; };
-		8494C21F1A474CBC009BE16A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8494C21E1A474CBC009BE16A /* CoreGraphics.framework */; };
-		8494C2211A474CC5009BE16A /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8494C2201A474CC5009BE16A /* libz.1.1.3.dylib */; };
 		84C22C231A413E79007073E8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C22C221A413E79007073E8 /* main.m */; };
 		84C22C261A413E79007073E8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C22C251A413E79007073E8 /* AppDelegate.m */; };
 		84C22C291A413E79007073E8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C22C281A413E79007073E8 /* ViewController.m */; };
@@ -23,9 +17,9 @@
 		84C22C481A417261007073E8 /* CLLocation+Strings.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C22C471A417261007073E8 /* CLLocation+Strings.m */; };
 		84C22C4A1A4182A6007073E8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84C22C491A4182A6007073E8 /* Localizable.strings */; };
 		84C22C4C1A41857E007073E8 /* ReadMe.md in Sources */ = {isa = PBXBuildFile; fileRef = 84C22C4B1A41857E007073E8 /* ReadMe.md */; };
+		84F459FC1A512B4D00DEE636 /* StorageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F459FB1A512B4D00DEE636 /* StorageManager.m */; };
 		84FA32521A49F7FB001E5862 /* WebserviceOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FA32511A49F7FB001E5862 /* WebserviceOperation.m */; };
 		84FA32541A49FB0D001E5862 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FA32531A49FB0D001E5862 /* CoreLocation.framework */; };
-		84FA32571A49FC65001E5862 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FA32561A49FC65001E5862 /* ImageIO.framework */; };
 		84FA32711A49FD35001E5862 /* NSAlert+MKNetworkKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FA325C1A49FD35001E5862 /* NSAlert+MKNetworkKitAdditions.m */; };
 		84FA32721A49FD35001E5862 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FA325E1A49FD35001E5862 /* NSData+MKBase64.m */; };
 		84FA32731A49FD35001E5862 /* NSDate+RFC1123.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FA32601A49FD35001E5862 /* NSDate+RFC1123.m */; };
@@ -49,12 +43,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8458C09F1A44B0ED0067A9FA /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		8494C2181A474C17009BE16A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		8494C21A1A474C21009BE16A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		8494C21C1A474C2E009BE16A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		8494C21E1A474CBC009BE16A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		8494C2201A474CC5009BE16A /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
 		84C22C1D1A413E79007073E8 /* LocationAssignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocationAssignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C22C211A413E79007073E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84C22C221A413E79007073E8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -72,11 +60,13 @@
 		84C22C471A417261007073E8 /* CLLocation+Strings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+Strings.m"; sourceTree = "<group>"; };
 		84C22C491A4182A6007073E8 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		84C22C4B1A41857E007073E8 /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
+		84F459FA1A512B4D00DEE636 /* StorageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorageManager.h; sourceTree = "<group>"; };
+		84F459FB1A512B4D00DEE636 /* StorageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorageManager.m; sourceTree = "<group>"; };
+		84F459FD1A512BC200DEE636 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Constants.h; sourceTree = "<group>"; };
 		84FA32501A49F7FB001E5862 /* WebserviceOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebserviceOperation.h; sourceTree = "<group>"; };
 		84FA32511A49F7FB001E5862 /* WebserviceOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebserviceOperation.m; sourceTree = "<group>"; };
 		84FA32531A49FB0D001E5862 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		84FA32551A49FBEC001E5862 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
-		84FA32561A49FC65001E5862 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		84FA325B1A49FD35001E5862 /* NSAlert+MKNetworkKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+MKNetworkKitAdditions.h"; sourceTree = "<group>"; };
 		84FA325C1A49FD35001E5862 /* NSAlert+MKNetworkKitAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+MKNetworkKitAdditions.m"; sourceTree = "<group>"; };
 		84FA325D1A49FD35001E5862 /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
@@ -105,14 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84FA32571A49FC65001E5862 /* ImageIO.framework in Frameworks */,
 				84FA32541A49FB0D001E5862 /* CoreLocation.framework in Frameworks */,
-				8494C2211A474CC5009BE16A /* libz.1.1.3.dylib in Frameworks */,
-				8494C21F1A474CBC009BE16A /* CoreGraphics.framework in Frameworks */,
-				8494C21D1A474C2E009BE16A /* Foundation.framework in Frameworks */,
-				8494C21B1A474C21009BE16A /* CFNetwork.framework in Frameworks */,
-				8494C2191A474C17009BE16A /* SystemConfiguration.framework in Frameworks */,
-				8458C0A01A44B0ED0067A9FA /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,14 +112,7 @@
 		84C22C141A413E79007073E8 = {
 			isa = PBXGroup;
 			children = (
-				84FA32561A49FC65001E5862 /* ImageIO.framework */,
 				84FA32531A49FB0D001E5862 /* CoreLocation.framework */,
-				8494C2201A474CC5009BE16A /* libz.1.1.3.dylib */,
-				8494C21E1A474CBC009BE16A /* CoreGraphics.framework */,
-				8494C21C1A474C2E009BE16A /* Foundation.framework */,
-				8494C21A1A474C21009BE16A /* CFNetwork.framework */,
-				8494C2181A474C17009BE16A /* SystemConfiguration.framework */,
-				8458C09F1A44B0ED0067A9FA /* Security.framework */,
 				84C22C4B1A41857E007073E8 /* ReadMe.md */,
 				84C22C1F1A413E79007073E8 /* LocationAssignment */,
 				84C22C391A413E79007073E8 /* LocationAssignmentTests */,
@@ -159,6 +135,7 @@
 				84FA32581A49FD35001E5862 /* Externals */,
 				84C22C461A417261007073E8 /* CLLocation+Strings.h */,
 				84C22C471A417261007073E8 /* CLLocation+Strings.m */,
+				84F459FD1A512BC200DEE636 /* Constants.h */,
 				84C22C241A413E79007073E8 /* AppDelegate.h */,
 				84C22C251A413E79007073E8 /* AppDelegate.m */,
 				84C22C271A413E79007073E8 /* ViewController.h */,
@@ -169,6 +146,8 @@
 				84C22C201A413E79007073E8 /* Supporting Files */,
 				84FA32501A49F7FB001E5862 /* WebserviceOperation.h */,
 				84FA32511A49F7FB001E5862 /* WebserviceOperation.m */,
+				84F459FA1A512B4D00DEE636 /* StorageManager.h */,
+				84F459FB1A512B4D00DEE636 /* StorageManager.m */,
 			);
 			path = LocationAssignment;
 			sourceTree = "<group>";
@@ -363,6 +342,7 @@
 				84C22C291A413E79007073E8 /* ViewController.m in Sources */,
 				84FA32751A49FD35001E5862 /* NSString+MKNetworkKitAdditions.m in Sources */,
 				84C22C261A413E79007073E8 /* AppDelegate.m in Sources */,
+				84F459FC1A512B4D00DEE636 /* StorageManager.m in Sources */,
 				84FA32761A49FD35001E5862 /* UIAlertView+MKNetworkKitAdditions.m in Sources */,
 				84C22C231A413E79007073E8 /* main.m in Sources */,
 				84FA32771A49FD35001E5862 /* UIImageView+MKNetworkKitAdditions.m in Sources */,

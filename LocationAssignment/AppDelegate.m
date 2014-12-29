@@ -75,22 +75,11 @@
     [WebserviceOperation runWebservicewithParameters: parameters completionHander :^(WebServiceStatus status, NSString *submitDate, NSError* error){
         if (nil == error) {
             NSDate *date = [NSDate date];
-            [self saveSubmitDate:date];
+            [StorageManager saveSubmitDate:date];
         }else{
             NSLog(@"Error: %@", error.description);
         }
     }];
-}
-
--(void)saveSubmitDate : (NSDate *)localTimezoneDate
-{
-    //Convert to GMT time zone and then save
-    NSTimeZone *tz = [NSTimeZone defaultTimeZone];
-    NSInteger seconds = -[tz secondsFromGMTForDate: localTimezoneDate];
-    NSDate *dateGMT = [NSDate dateWithTimeInterval: seconds sinceDate: localTimezoneDate];
-    [[NSUserDefaults standardUserDefaults] setObject:dateGMT forKey:kPreviousSubmitTimeKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
 }
 
 @end
