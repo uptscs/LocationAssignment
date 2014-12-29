@@ -57,6 +57,15 @@
     if (_previousSubmitDate) {
         [self startTimer:1.0];
     }
+    
+    //Location label update
+    latitude = [[NSUserDefaults standardUserDefaults] doubleForKey:kCustomerLatitude];
+    longitude = [[NSUserDefaults standardUserDefaults] doubleForKey:kCustomerLongitude];
+
+    CLLocation *newLocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+    NSString *locationDescription = newLocation.localizedCoordinateString;
+    _labelCurrentLocation.text = locationDescription;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,7 +90,6 @@
 
 -(IBAction)submit:(id)sender{
     [_textfieldCustomerName resignFirstResponder];
-//    [_buttonSubmit setUserInter]
     [_buttonSubmit setUserInteractionEnabled:NO];
     [_activitySubmit startAnimating];
     NSString *userName = _textfieldCustomerName.text;
@@ -181,6 +189,16 @@
     }
 }
 
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    CLLocation *location = [locations lastObject];
+    latitude = location.coordinate.latitude;
+    longitude = location.coordinate.longitude;
+    [[NSUserDefaults standardUserDefaults] setDouble:latitude forKey:kCustomerLatitude];
+    [[NSUserDefaults standardUserDefaults] setDouble:longitude forKey:kCustomerLongitude];
+    NSString *locationDescription = location.localizedCoordinateString;
+    _labelCurrentLocation.text = locationDescription;
+}
 - (void)stopUpdatingLocationWithMessage:(NSString *)state {
     [_locationManager stopUpdatingLocation];
     _locationManager.delegate = nil;
