@@ -28,7 +28,7 @@ static WebserviceOperation *sharedInstance;
     double latitude= [[parameters objectForKey:@"latitude"] doubleValue];
     double longitude= [[parameters objectForKey:@"longitude"] doubleValue];
     NSDictionary *headers = @{kContentType : kContentTypeJson, kAcceptEncoding : kGzip};
-    NSString *data = [NSString stringWithFormat:@"{\"Data\":\"%@ is now at %f/%f\"}", userName, latitude, longitude];
+    NSString *data = [NSString stringWithFormat:@"data=%@ is now at %f/%f", userName, latitude, longitude];
 
     sharedInstance = [[WebserviceOperation alloc] initWithURLString:kURLEvent params:nil httpMethod:kMethodPOST];
     [sharedInstance setUsername:kUsername password:kPassword basicAuth:YES];

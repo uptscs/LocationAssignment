@@ -57,15 +57,6 @@
     if (_previousSubmitDate) {
         [self startTimer:1.0];
     }
-    
-    //Location label update
-    latitude = [[NSUserDefaults standardUserDefaults] doubleForKey:kCustomerLatitude];
-    longitude = [[NSUserDefaults standardUserDefaults] doubleForKey:kCustomerLongitude];
-
-    CLLocation *newLocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
-    NSString *locationDescription = newLocation.localizedCoordinateString;
-    _labelCurrentLocation.text = locationDescription;
-
 }
 
 - (void)didReceiveMemoryWarning {

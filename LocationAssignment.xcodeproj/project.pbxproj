@@ -17,6 +17,9 @@
 		84C22C481A417261007073E8 /* CLLocation+Strings.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C22C471A417261007073E8 /* CLLocation+Strings.m */; };
 		84C22C4A1A4182A6007073E8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84C22C491A4182A6007073E8 /* Localizable.strings */; };
 		84C22C4C1A41857E007073E8 /* ReadMe.md in Sources */ = {isa = PBXBuildFile; fileRef = 84C22C4B1A41857E007073E8 /* ReadMe.md */; };
+		84CA55311A5296630083A4C1 /* cal.license in Resources */ = {isa = PBXBuildFile; fileRef = 84CA552B1A5296630083A4C1 /* cal.license */; };
+		84CA55321A5296630083A4C1 /* genLicense.pl in Resources */ = {isa = PBXBuildFile; fileRef = 84CA552C1A5296630083A4C1 /* genLicense.pl */; };
+		84CA55351A5296630083A4C1 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 84CA552F1A5296630083A4C1 /* Settings.bundle */; };
 		84F459FC1A512B4D00DEE636 /* StorageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F459FB1A512B4D00DEE636 /* StorageManager.m */; };
 		84FA32521A49F7FB001E5862 /* WebserviceOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FA32511A49F7FB001E5862 /* WebserviceOperation.m */; };
 		84FA32541A49FB0D001E5862 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FA32531A49FB0D001E5862 /* CoreLocation.framework */; };
@@ -60,6 +63,9 @@
 		84C22C471A417261007073E8 /* CLLocation+Strings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+Strings.m"; sourceTree = "<group>"; };
 		84C22C491A4182A6007073E8 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		84C22C4B1A41857E007073E8 /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
+		84CA552B1A5296630083A4C1 /* cal.license */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cal.license; sourceTree = "<group>"; };
+		84CA552C1A5296630083A4C1 /* genLicense.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = genLicense.pl; sourceTree = "<group>"; };
+		84CA552F1A5296630083A4C1 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../Settings.bundle; sourceTree = "<group>"; };
 		84F459FA1A512B4D00DEE636 /* StorageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorageManager.h; sourceTree = "<group>"; };
 		84F459FB1A512B4D00DEE636 /* StorageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorageManager.m; sourceTree = "<group>"; };
 		84F459FD1A512BC200DEE636 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Constants.h; sourceTree = "<group>"; };
@@ -155,6 +161,8 @@
 		84C22C201A413E79007073E8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				84CA55291A5296630083A4C1 /* licenses */,
+				84CA552F1A5296630083A4C1 /* Settings.bundle */,
 				84C22C491A4182A6007073E8 /* Localizable.strings */,
 				84C22C211A413E79007073E8 /* Info.plist */,
 				84C22C221A413E79007073E8 /* main.m */,
@@ -178,6 +186,16 @@
 				84C22C3B1A413E79007073E8 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		84CA55291A5296630083A4C1 /* licenses */ = {
+			isa = PBXGroup;
+			children = (
+				84CA552B1A5296630083A4C1 /* cal.license */,
+				84CA552C1A5296630083A4C1 /* genLicense.pl */,
+			);
+			name = licenses;
+			path = ../licenses;
 			sourceTree = "<group>";
 		};
 		84FA32581A49FD35001E5862 /* Externals */ = {
@@ -242,6 +260,7 @@
 				84C22C191A413E79007073E8 /* Sources */,
 				84C22C1A1A413E79007073E8 /* Frameworks */,
 				84C22C1B1A413E79007073E8 /* Resources */,
+				84CA55361A5299620083A4C1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -313,7 +332,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				84C22C2C1A413E79007073E8 /* Main.storyboard in Resources */,
+				84CA55321A5296630083A4C1 /* genLicense.pl in Resources */,
+				84CA55351A5296630083A4C1 /* Settings.bundle in Resources */,
 				84C22C4A1A4182A6007073E8 /* Localizable.strings in Resources */,
+				84CA55311A5296630083A4C1 /* cal.license in Resources */,
 				84C22C311A413E79007073E8 /* LaunchScreen.xib in Resources */,
 				84C22C2E1A413E79007073E8 /* Images.xcassets in Resources */,
 			);
@@ -327,6 +349,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		84CA55361A5299620083A4C1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd /Users/admin/Desktop/LocationAssignment/licenses\n./genLicense.pl\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		84C22C191A413E79007073E8 /* Sources */ = {
