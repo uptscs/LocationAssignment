@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "WebserviceOperation.h"
-
+#import "LocationHelper.h"
 @interface AppDelegate ()
 
 @end
@@ -17,6 +17,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [LocationHelper startUpdatingLocation];
     return YES;
 }
 
@@ -64,11 +65,16 @@
 -(void)submitData{
     
     NSString *userName = [[NSUserDefaults standardUserDefaults] objectForKey:kCustomerNameKey];
-    double latitude = [[NSUserDefaults standardUserDefaults] doubleForKey:kCustomerLatitude];
-    double longitude = [[NSUserDefaults standardUserDefaults] doubleForKey:kCustomerLongitude];
     if (nil == userName || userName.length <= 0) {
         return;
     }
+
+    double latitude = [[LocationHelper sharedInstance] currentLocation].coordinate.latitude;
+    double longitude = [[LocationHelper sharedInstance] currentLocation].coordinate.longitude;
+    if (latitude == 0.0 && longitude == 0.0) {
+        return;
+    }
+
     NSDictionary *parameters = @{@"Name":userName,
                                  @"latitude":@(latitude),
                                  @"longitude":@(longitude)};

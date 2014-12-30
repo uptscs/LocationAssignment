@@ -10,22 +10,19 @@
 #import "CLLocation+Strings.h"
 #import <Security/Security.h>
 #import "WebserviceOperation.h"
+#import "LocationHelper.h"
 
-@interface ViewController ()<UITextFieldDelegate, CLLocationManagerDelegate>{
+@interface ViewController ()<UITextFieldDelegate>{
     IBOutlet UITextField    *_textfieldCustomerName;
     IBOutlet UILabel        *_labelPreviousSubmitMessage;
     IBOutlet UILabel        *_labelCurrentLocation;
     IBOutlet UIButton        *_buttonSubmit;
     IBOutlet UIActivityIndicatorView      *_activitySubmit;
 
-    CLLocationManager       *_locationManager;
-
     NSDate      *_previousSubmitDate;
     NSTimer     *_timer;
 
     BOOL        _isTimersetforMinutes;
-    double      latitude;
-    double      longitude;
 }
 
 @end
@@ -34,13 +31,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _locationManager = [[CLLocationManager alloc] init];
-    _locationManager.delegate = self;
-    if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
-        [_locationManager requestWhenInUseAuthorization];
-    }
-    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [_locationManager startUpdatingLocation];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentLocationChange:) name:kNewCurrentLocationNotificationFound object:nil];
+    [LocationHelper startUpdatingLocation];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -80,6 +72,12 @@
 #pragma mark User interaction methods
 
 -(IBAction)submit:(id)sender{
+    double latitude = [[LocationHelper sharedInstance] currentLocation].coordinate.latitude;
+    double longitude = [[LocationHelper sharedInstance] currentLocation].coordinate.longitude;
+    if (latitude == 0.0 && longitude == 0.0) {
+        return;
+    }
+
     [_textfieldCustomerName resignFirstResponder];
     [_buttonSubmit setUserInteractionEnabled:NO];
     [_activitySubmit startAnimating];
@@ -162,38 +160,9 @@
     return @"No submission done";
 }
 
-#pragma mark -
-#pragma mark CLLocation manager delegate methods
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    latitude = newLocation.coordinate.latitude;
-    longitude = newLocation.coordinate.longitude;
-    [[NSUserDefaults standardUserDefaults] setDouble:latitude forKey:kCustomerLatitude];
-    [[NSUserDefaults standardUserDefaults] setDouble:longitude forKey:kCustomerLongitude];
-    NSString *locationDescription = newLocation.localizedCoordinateString;
+-(void)currentLocationChange:(NSNotification *)notification{
+    NSString *locationDescription = [LocationHelper sharedInstance].currentLocation.localizedCoordinateString;
     _labelCurrentLocation.text = locationDescription;
-}
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    if ([error code] != kCLErrorLocationUnknown) {
-        [self stopUpdatingLocationWithMessage:NSLocalizedString(@"Error", @"Error")];
-    }
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
-{
-    CLLocation *location = [locations lastObject];
-    latitude = location.coordinate.latitude;
-    longitude = location.coordinate.longitude;
-    [[NSUserDefaults standardUserDefaults] setDouble:latitude forKey:kCustomerLatitude];
-    [[NSUserDefaults standardUserDefaults] setDouble:longitude forKey:kCustomerLongitude];
-    NSString *locationDescription = location.localizedCoordinateString;
-    _labelCurrentLocation.text = locationDescription;
-}
-- (void)stopUpdatingLocationWithMessage:(NSString *)state {
-    [_locationManager stopUpdatingLocation];
-    _locationManager.delegate = nil;
-    NSLog(@"Location update stopped, reason: %@", state);
 }
 
 @end

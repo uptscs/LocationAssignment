@@ -20,6 +20,7 @@
 		84CA55311A5296630083A4C1 /* cal.license in Resources */ = {isa = PBXBuildFile; fileRef = 84CA552B1A5296630083A4C1 /* cal.license */; };
 		84CA55321A5296630083A4C1 /* genLicense.pl in Resources */ = {isa = PBXBuildFile; fileRef = 84CA552C1A5296630083A4C1 /* genLicense.pl */; };
 		84CA55351A5296630083A4C1 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 84CA552F1A5296630083A4C1 /* Settings.bundle */; };
+		84D7F2261A531D180087891C /* LocationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D7F2251A531D180087891C /* LocationHelper.m */; };
 		84F459FC1A512B4D00DEE636 /* StorageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F459FB1A512B4D00DEE636 /* StorageManager.m */; };
 		84FA32521A49F7FB001E5862 /* WebserviceOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FA32511A49F7FB001E5862 /* WebserviceOperation.m */; };
 		84FA32541A49FB0D001E5862 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FA32531A49FB0D001E5862 /* CoreLocation.framework */; };
@@ -66,6 +67,8 @@
 		84CA552B1A5296630083A4C1 /* cal.license */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cal.license; sourceTree = "<group>"; };
 		84CA552C1A5296630083A4C1 /* genLicense.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = genLicense.pl; sourceTree = "<group>"; };
 		84CA552F1A5296630083A4C1 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../Settings.bundle; sourceTree = "<group>"; };
+		84D7F2241A531D180087891C /* LocationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationHelper.h; sourceTree = "<group>"; };
+		84D7F2251A531D180087891C /* LocationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationHelper.m; sourceTree = "<group>"; };
 		84F459FA1A512B4D00DEE636 /* StorageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorageManager.h; sourceTree = "<group>"; };
 		84F459FB1A512B4D00DEE636 /* StorageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorageManager.m; sourceTree = "<group>"; };
 		84F459FD1A512BC200DEE636 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Constants.h; sourceTree = "<group>"; };
@@ -154,6 +157,8 @@
 				84FA32511A49F7FB001E5862 /* WebserviceOperation.m */,
 				84F459FA1A512B4D00DEE636 /* StorageManager.h */,
 				84F459FB1A512B4D00DEE636 /* StorageManager.m */,
+				84D7F2241A531D180087891C /* LocationHelper.h */,
+				84D7F2251A531D180087891C /* LocationHelper.m */,
 			);
 			path = LocationAssignment;
 			sourceTree = "<group>";
@@ -375,6 +380,7 @@
 				84FA32781A49FD35001E5862 /* MKNetworkEngine.m in Sources */,
 				84FA32791A49FD35001E5862 /* MKNetworkOperation.m in Sources */,
 				84FA32521A49F7FB001E5862 /* WebserviceOperation.m in Sources */,
+				84D7F2261A531D180087891C /* LocationHelper.m in Sources */,
 				84FA32721A49FD35001E5862 /* NSData+MKBase64.m in Sources */,
 				84FA32731A49FD35001E5862 /* NSDate+RFC1123.m in Sources */,
 				84C22C291A413E79007073E8 /* ViewController.m in Sources */,

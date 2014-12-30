@@ -4,14 +4,14 @@ LocationAssignment
 ABSTRACT:
 
 This demonstrate two major functionality: 1) Getting UserLocation and tracking
-    the change in the user's location. 2) Using AFNetworking and calling the 
+    the change in the user's location. 2) Using MKNetwork and calling the 
     webservice with the location data.
 
 What to look for in this Project
 
 • Use of CoreLocation framework for the user lcoation handling.
 
-• AFNetwork Integration with inline callbacks.
+• MKNetwork Integration with callbacks when response received.
 
 Location hadling code is used in ViewController class, which is also reponsible 
     for UI presented to user. For the network/webservice calls WebserviceOperation 

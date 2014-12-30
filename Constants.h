@@ -29,4 +29,6 @@
 
 #define kStatusSuccess      201
 
+#define kNewCurrentLocationNotificationFound @"NewCurrentLocationNotificationFound"
+
 #endif
